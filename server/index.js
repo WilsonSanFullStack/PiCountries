@@ -1,10 +1,35 @@
 const axios = require("axios");
 const server = require("./src/server");
-const { conn } = require('./src/db.js');
+const { conn, Country } = require("./src/db.js");
 const PORT = 3001;
 
-conn.sync({ force: true }).then(() => {
-server.listen(PORT, () => {
-  console.log(`Server listening on port ${PORT}`);
-})
-}).catch(error => console.error(error))
+conn
+  .sync({ force: true })
+  .then(() => {
+    server.listen(PORT, async () => {
+      const dbCountries = Country.findAll();
+      if (!dbCountries.length) {
+        const urlApi = await axios.get("http://localhost:5000/countries");
+        const infApi = await urlApi.data.map((pais) => {
+          return {
+            name: pais.name.common,
+            image: pais.flags.svg,
+            continent: pais.continents[0],
+            capital: pais.capital ? pais.capital[0] : "Capital",
+            subregion: pais.subregion ? pais.subregion : "Subregion",
+            area: pais.area,
+            population: pais.population,
+          };
+        });
+        for (let i = 0; i < infApi.length; i++) {
+          await Country.findOrCreate({
+            where: { name: infApi[i].name },
+            defaults: infApi[i],
+          });
+        }
+        console.log("La Base De Datos ha sido actualizada");
+      }
+      console.log(`Server listening on port ${PORT}`);
+    });
+  })
+  .catch((error) => console.error(error));
