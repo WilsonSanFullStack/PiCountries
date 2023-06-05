@@ -1,3 +1,30 @@
+//      ,----------------,              ,---------,
+//         ,-----------------------,          ,"        ,"|
+//       ,"                      ,"|        ,"        ,"  |
+//      +-----------------------+  |      ,"        ,"    |
+//      |  .-----------------.  |  |     +---------+      |
+//      |  |                 |  |  |     | -==----'|      |
+//      |  |  I LOVE DOS!    |  |  |     |         |      |
+//      |  |  Bad command or |  |  |/----|`---=    |      |
+//      |  |  C:\>_          |  |  |   ,/|==== ooo |      ;
+//      |  |                 |  |  |  // |(((( [33]|    ,"
+//      |  `-----------------'  |," .;'| |((((     |  ,"
+//      +-----------------------+  ;;  | |         |,"
+//         /_)______________(_/  //'   | +---------+
+//    ___________________________/___  `,
+//   /  oooooooooooooooo  .o.  oooo /,   \,"-----------
+//  / ==ooooooooooooooo==.o.  ooo= //   ,`\--{)B     ,"
+// /_==__==========__==_ooo__ooo=_/'   /___________,"
+//
+//                 .-~~~~~~~~~-._       _.-~~~~~~~~~-.
+//             __.'              ~.   .~              `.__
+//           .'//                  \./                  \\`.
+//         .'//                     |                     \\`.
+//       .'// .-~"""""""~~~~-._     |     _,-~~~~"""""""~-. \\`.
+//     .'//.-"                 `-.  |  .-'                 "-.\\`.
+//   .'//______.============-..   \ | /   ..-============.______\\`.
+// .'______________________________\|/______________________________`.
+
 const axios = require("axios");
 const server = require("./src/server");
 const { conn, Country } = require("./src/db.js");
@@ -12,6 +39,7 @@ conn
         const urlApi = await axios.get("http://localhost:5000/countries");
         const infApi = await urlApi.data.map((pais) => {
           return {
+            id: pais.cca3,
             name: pais.name.common,
             image: pais.flags.svg,
             continent: pais.continents[0],
@@ -32,4 +60,4 @@ conn
       console.log(`Server listening on port ${PORT}`);
     });
   })
-  .catch((error) => console.error(error));
+  .catch((error) => console.log("hubo un error"));

@@ -5,13 +5,10 @@ module.exports = (sequelize) => {
   // defino el modelo
   sequelize.define('Country', {
     id: {
-      type: DataTypes.STRING(3),
+      type: DataTypes.STRING,
       allowNull: false,
       primaryKey: true,
-      defaultValue: () => {
-        return `${Math.random().toString(36).substr(2, 3).toUpperCase()}`;
-      },
-      unique: true,
+      unique: true
     },
     name: {
       type: DataTypes.STRING,
