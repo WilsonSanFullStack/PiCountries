@@ -60,4 +60,4 @@ conn
       console.log(`Server listening on port ${PORT}`);
     });
   })
-  .catch((error) => console.log("hubo un error"));
+  .catch((error) => console.error(error));
