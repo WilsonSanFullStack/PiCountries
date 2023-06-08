@@ -1,4 +1,23 @@
-// controles de las actividades
+const { Activity, Country } = require("../db.js");
+
+const postActivity = async (name, difficulty, duration, season, countries) => {
+  const newActivity = await Activity.findOrCreate({where: {name, difficulty, duration, season} } );
+
+  //relacion de activity con country
+  if (countries && countries.length > 0) {
+  const countryForActivity = await Country.findAll({where: {id: countries } });
+  await newActivity[0].setCountries(countryForActivity);
+  }
+  return newActivity[0];
+};
+
+const getAllActivity = async () => await Activity.findAll();
+
+module.exports = {
+  postActivity,
+  getAllActivity
+}
+
 
 
 //!⠀⠀⠀⠀⠀⠀⠀⠀⠀⢶⣦⣤⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀

@@ -5,8 +5,9 @@ module.exports = (sequelize) => {
     "Activity", 
     {
       id: {
-        type: DataTypes.STRING(3),
+        type: DataTypes.INTEGER,
         allowNull: false,
+        autoIncrement: true,
         primaryKey: true,
         unique: true,
       },

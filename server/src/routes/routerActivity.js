@@ -1,68 +1,42 @@
-//      ,----------------,              ,---------,
-//         ,-----------------------,          ,"        ,"|
-//       ,"                      ,"|        ,"        ,"  |
-//      +-----------------------+  |      ,"        ,"    |
-//      |  .-----------------.  |  |     +---------+      |
-//      |  |                 |  |  |     | -==----'|      |
-//      |  |  I LOVE DOS!    |  |  |     |         |      |
-//      |  |  Bad command or |  |  |/----|`---=    |      |
-//      |  |  C:\>_          |  |  |   ,/|==== ooo |      ;
-//      |  |                 |  |  |  // |(((( [33]|    ,"
-//      |  `-----------------'  |," .;'| |((((     |  ,"
-//      +-----------------------+  ;;  | |         |,"
-//         /_)______________(_/  //'   | +---------+
-//    ___________________________/___  `,
-//   /  oooooooooooooooo  .o.  oooo /,   \,"-----------
-//  / ==ooooooooooooooo==.o.  ooo= //   ,`\--{)B     ,"
-// /_==__==========__==_ooo__ooo=_/'   /___________,"
-//
-//                 .-~~~~~~~~~-._       _.-~~~~~~~~~-.
-//             __.'              ~.   .~              `.__
-//           .'//                  \./                  \\`.
-//         .'//                     |                     \\`.
-//       .'// .-~"""""""~~~~-._     |     _,-~~~~"""""""~-. \\`.
-//     .'//.-"                 `-.  |  .-'                 "-.\\`.
-//   .'//______.============-..   \ | /   ..-============.______\\`.
-// .'______________________________\|/______________________________`.
+const { Router } = require("express");
+const router = Router();
+const {
+  postActivity,
+  getAllActivity,
+} = require("../controllers/controllerActivity");
 
-const axios = require("axios");
-const server = require("./src/server");
-const { conn, Country } = require("./src/db.js");
-const PORT = 3001;
+router.post("/activity", async (req, res) => {
+  const { name, difficulty, duration, season } = req.body;
+  const countries = req.body.countries;
+  try {
+    if (!name || !difficulty || !countries) {
+      throw Error("Lo siento pero me falta Infromacion");
+    } else {
+      const newActivity = await postActivity(
+        name,
+        difficulty,
+        duration,
+        season,
+        countries
+      );
+      return res.status(200).json(newActivity);
+    }
+  } catch (error) {
+    return res.status(404).send(error.message);
+  }
+});
 
-conn
-  .sync({ force: true })
-  .then(() => {
-    server.listen(PORT, async () => {
-      const dbCountries = Country.findAll();
-      if (!dbCountries.length) {
-        const urlApi = await axios.get("http://localhost:5000/countries");
-        const infApi = await urlApi.data.map((pais) => {
-          return {
-            id: pais.cca3,
-            name: pais.name.common,
-            image: pais.flags.svg,
-            continent: pais.continents[0],
-            capital: pais.capital ? pais.capital[0] : "Capital",
-            subregion: pais.subregion ? pais.subregion : "Subregion",
-            area: pais.area,
-            population: pais.population,
-          };
-        });
-        for (let i = 0; i < infApi.length; i++) {
-          await Country.findOrCreate({
-            where: { name: infApi[i].name },
-            defaults: infApi[i],
-          });
-        }
-        //console.log(infApi)
-        console.log("La Base De Datos ha sido actualizada");
-      }
-      console.log(`Server listening on port ${PORT}`);
-    });
-  })
-  .catch((error) => console.error(error));
+router.get("/activity", async (req, res) => {
+  const allActivity = await getAllActivity();
 
+  try {
+    res.status(200).json(allActivity);
+  } catch (error) {
+    return res.status(404).send(error.message);
+  }
+});
+
+module.exports = router;
 
 //!⠀⠀⠀⠀⠀⠀⠀⠀⠀⢶⣦⣤⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 //!⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⡇⠀⠈⠹⡆⢀⣤⣤⡀⢠⣤⢠⣤⣿⡤⣴⡆⠀⣴⠀⠀⠀⢠⣄⠀⢠⡄⠀⠀⠀⣤⣄⣿⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
