@@ -1,15 +1,30 @@
 import axios from "axios";
 
-//mostramos todos los paises
+import {
+  GET_COUNTRIES,
+  GET_DETAIL,
+  POST_ACTIVITY,
+  GET_ACTIVITIES,
+  FILTER_FOR_CONTINENT,
+  SORT,
+  BY_POPULATIONS,
+  BY_ACTIVITY,
+} from "./variables";
 
+//urls
+const URL = "http://localhost:3001";
+const COUNTRIES = "countries";
+const ACTIVITY = "activity";
+
+//mostramos todos los paises
 export const getCountries = () => {
   try {
-    const endpoint = "http://localhost:3001/countries";
+    const endpoint = `${URL}/${COUNTRIES}`;
     return async (dispatch) => {
       const { data } = await axios.get(endpoint);
 
       dispatch({
-        type: "GET_COUNTRIES",
+        type: GET_COUNTRIES,
         payload: data,
       });
     };
@@ -19,34 +34,15 @@ export const getCountries = () => {
     );
   }
 };
-//buscamos un pais por id
-
-export const getCountriesById = (id) => {
-  return async (dispatch) => {
-    try {
-      const endpoint = `http://localhost:3001/countries?name=${id}`;
-      const { data } = await axios.get(endpoint);
-
-      dispatch({
-        type: "GET_COUNTRIES_DETAIL",
-        payload: data,
-      });
-    } catch (error) {
-      alert(`Ocurrió un error al buscar el país por id: ${error.message}`);
-    }
-  };
-};
-
 // mostramos el detalle de un pais
-
 export const getDetail = (id) => {
   return async (dispatch) => {
     try {
-      const endpoint = `http://localhost:3001/countries?name=${id}`;
+      const endpoint = `${URL}/${COUNTRIES}/${id}`;
       const { data } = await axios.get(endpoint);
 
       dispatch({
-        type: "GET_DETAIL",
+        type: GET_DETAIL,
         payload: data,
       });
     } catch (error) {
@@ -54,17 +50,15 @@ export const getDetail = (id) => {
     }
   };
 };
-
 //buscamos un pais por nombre
-
 export const getCountriesByName = (name) => {
   return async (dispatch) => {
     try {
-      const endpoint = `http://localhost:3001/countries?name=${name}`;
+      const endpoint = `${URL}/${COUNTRIES}?name=${name}`;
       const { data } = await axios.get(endpoint);
 
       dispatch({
-        type: "GET_COUNTRIES_NAME",
+        type: GET_COUNTRIES_NAME,
         payload: data,
       });
     } catch (error) {
@@ -74,17 +68,15 @@ export const getCountriesByName = (name) => {
     }
   };
 };
-
 //creamos una nueva actividad
-
 export const newActivity = (newdata) => {
   return async (dispatch) => {
     try {
-      const endpoint = "http://localhost:3001/activity";
+      const endpoint = `${URL}/${ACTIVITY}`;
       const { data } = await axios.post(endpoint, newdata);
 
       dispatch({
-        type: "POST_ACTIVITY",
+        type: POST_ACTIVITY,
         payload: data,
       });
     } catch (error) {
@@ -92,17 +84,15 @@ export const newActivity = (newdata) => {
     }
   };
 };
-
 // mostramos todas las actividades
-
 export const getActivities = () => {
   return async (dispatch) => {
     try {
-      const endpoint = "http://localhost:3001/activity";
+      const endpoint = `${URL}/${ACTIVITY}`;
       const { data } = await axios.get(endpoint);
 
       dispatch({
-        type: "GET_ACTIVITIES",
+        type: GET_ACTIVITIES,
         payload: data,
       });
     } catch (error) {
@@ -110,21 +100,39 @@ export const getActivities = () => {
     }
   };
 };
-
 // filtracion por continente
 export const filterCountriesForCotinent = (payload) => {
   return {
-    type: "FILTER_FOR_CONTINENT",
-    payload,
+    type: FILTER_FOR_CONTINENT,
+    payload: {
+      continente: payload,
+    },
   };
 };
-
 // ordenar paises
 export const setCountriesSort = (payload) => {
   return {
-    type: "SORT",
+    type: SORT,
     payload: {
       asc: payload,
+    },
+  };
+};
+//ordenamos por poblacion
+export const byPopulations = (payload) => {
+  return {
+    type: BY_POPULATIONS,
+    payload: {
+      min: payload,
+    },
+  };
+};
+// ordenamos por actividad
+export const byActivity = (payload) => {
+  return {
+    type: BY_ACTIVITY,
+    payload: {
+      all: payload,
     },
   };
 };
