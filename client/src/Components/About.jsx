@@ -6,6 +6,7 @@ const About = () => {
       <h1>Creado por Wilson Arvey Sanchez Remolina</h1>
       <div className={styles.text}>
         <p>
+          
           Soy un apasionado desarrollador Full Stack con experiencia adquirida
           en el programa de formación intensiva de Henry. Durante mi tiempo en
           Henry, he adquirido conocimientos y habilidades en una amplia gama de

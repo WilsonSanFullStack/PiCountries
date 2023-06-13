@@ -3,6 +3,7 @@ import axios from "axios";
 import {
   GET_COUNTRIES,
   GET_DETAIL,
+  GET_COUNTRIES_NAME,
   POST_ACTIVITY,
   GET_ACTIVITIES,
   FILTER_FOR_CONTINENT,
@@ -80,7 +81,7 @@ export const newActivity = (newdata) => {
         payload: data,
       });
     } catch (error) {
-      alert(`No se pudo crear la actividad: ${data}: ${error.message}`);
+      alert(`No se pudo crear la actividad: ${error.message}`);
     }
   };
 };
@@ -110,7 +111,7 @@ export const filterCountriesForCotinent = (payload) => {
   };
 };
 // ordenar paises
-export const setCountriesSort = (payload) => {
+export const orderCountriesSort = (payload) => {
   return {
     type: SORT,
     payload: {

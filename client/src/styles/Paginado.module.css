@@ -1,0 +1,40 @@
+.contenedor {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  grid-gap: 10px;
+  align-items: center;
+  background-color: aqua;
+  padding: 10px;
+}
+
+.image {
+  display: flex;
+  justify-content: center;
+}
+
+.image img {
+  width: 20px;
+  height: 20px;
+}
+
+.input {
+  display: flex;
+  align-items: center;
+  
+}
+
+.input {
+  display: flex;
+  align-items: center;
+}
+
+.input input {
+  margin-right: 10px;
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.input p {
+  margin: 0;
+}
