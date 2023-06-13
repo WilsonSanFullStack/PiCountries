@@ -23,23 +23,17 @@ const Details = (props) => {
   useEffect(() => {
     dispatch(getDetail(id));
   }, [dispatch]);
-
-  // const activities = detail.Activities?.map((pais) => {
-  //   return {
-  //     name: pais.name,
-  //     difficulty: pais.difficulty,
-  //     duration: pais.duration,
-  //     season: pais.season,
-  //   };
-  // });
   
   return (
-    <div>
+    <div className={styles.contenedor}>
+
+      <div className={styles.detailCountry}>
+
       <div className={styles.image}>
         <img src={detail.image} alt={detail.name} />
       </div>
 
-      <div>
+      <div className={styles.detail}>
         <h2>Name: {detail.name} </h2>
         <h2>Id: {detail.id} </h2>
         <h2>Continent: {detail.continent} </h2>
@@ -47,12 +41,15 @@ const Details = (props) => {
         <h2>Population: {detail.population} </h2>
         <h2>Subregion: {detail.subregion} </h2>
       </div>
-      <div>
-        <h1>Actividades</h1>
+      </div>
+
+      <div className={styles.activity}>
+
+        <h1>ACTIVITY</h1>
         {detail.Activities?.length >= 0 ? (
           detail.Activities?.map((activity) => {
             return (
-              <div>
+              <div className={styles.detailActivity}>
                 <h3>Name: {activity.name} </h3>
                 <h3>Difficulty: {activity.difficulty} </h3>
                 <h3>Duration: {activity.duration} </h3>

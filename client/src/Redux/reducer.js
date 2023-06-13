@@ -17,6 +17,7 @@ const initialState = {
   activity: [],
   allActivities: [],
   population: [],
+  filteredCountries: [],
   loading: false,
 };
 
@@ -30,6 +31,7 @@ export function reducer(state = initialState, action) {
         countries: action.payload,
         population: action.payload,
         allActivities: action.payload,
+        filteredCountries: action.payload,
         //searchName: action.payload,
       };
     //buscamos un pais por nombre
@@ -72,9 +74,9 @@ export function reducer(state = initialState, action) {
     
     // filtracion por continente
     case FILTER_FOR_CONTINENT:
-  const continente = action.payload.continente;
+  const continente = action.payload.continente.toLowerCase();
 
-  if (continente.toLowerCase() === "all") {
+  if (continente === "all") {
     return {
       ...state,
       countries: state.countries.sort((a, b) =>
@@ -83,13 +85,13 @@ export function reducer(state = initialState, action) {
     };
   }
 
-  countries = state.countries.filter(
-    (pais) => pais.continent.toLowerCase() === continente.toLowerCase()
+  const filteredCountries = state.countries.filter(
+    (pais) => pais.continent.toLowerCase() === continente
   );
 
   return {
     ...state,
-    countries: countries,
+    countries: filteredCountries,
   };
 
     //ordenamos por poblacion

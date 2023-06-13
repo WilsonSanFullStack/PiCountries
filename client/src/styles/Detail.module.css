@@ -1,5 +1,61 @@
+.contenedor {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 95%;
+  margin: 1% 2.5%;
+  padding: 5px;
+}
+.detailCountry {
+  width: 100%;
+  height: auto;
+  padding: 5px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
 .image {
-  width: 150px;
-  height: 150px;
-  background-color: aqua;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding: 5px;
+  width: 65%;
+  margin: 2%;
+}
+.image img {
+  padding: 5px;
+  width: 98%;
+  
+}
+.detail {
+  border: solid 1px black;
+  width: 25%;
+  height: 60%;
+  margin: 10% 2%;
+  padding: 0.3%;
+  text-align: center;
+}
+.activity{
+  width: 100%;
+  height: auto;
+  padding: 5px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  margin: 1px 2%;
+}
+.activity h1 {
+  font-size: 50px;
+  text-align: center;
+  margin: -10px 70% ;
+  
+}
+.detailActivity {
+  border: solid 1px black;
+  width: 20%;
+  margin: 2%;
+  padding: 0.3%;
+  text-align: center;
 }
