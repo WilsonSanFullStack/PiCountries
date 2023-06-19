@@ -1,0 +1,109 @@
+.containerg {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.aviso {
+  background-color: #f8f8f8;
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  text-align: center;
+  font-size: 18px;
+  color: #333;
+}
+
+.container {
+  background: linear-gradient(to bottom, #e2cba0, #c69c6d);
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+section {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+label {
+  width: 120px;
+  font-weight: bold;
+}
+
+input,
+select {
+  flex: 1;
+  padding: 5px;
+  border-radius: 3px;
+  border: 1px solid #ccc;
+}
+
+.send button {
+  background-color: #e2cba0;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.send button:hover {
+  background-color: #c69c6d;
+}
+
+ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.listCountry {
+  display: flex;
+  align-items: center;
+}
+
+.listCountry p {
+  margin-right: 10px;
+}
+
+.listCountry button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.listCountry button img {
+  width: 16px;
+  height: 16px;
+}
+.close ol {
+  width: 200px; /* Ajusta el ancho según tus necesidades */
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.listCountry {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  margin-bottom: 5px;
+}
+
+.listCountry p {
+  margin-right: 10px;
+  word-wrap: break-word;
+}

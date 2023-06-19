@@ -55,7 +55,7 @@ export const getDetail = (id) => {
 export const getCountriesByName = (name) => {
   return async (dispatch) => {
     try {
-      const endpoint = `${URL}/${COUNTRIES}?name=${name}`;
+      const endpoint = `${URL}/name?name=${name}`;
       const { data } = await axios.get(endpoint);
 
       dispatch({
@@ -74,6 +74,12 @@ export const newActivity = (newdata) => {
   return async (dispatch) => {
     try {
       const endpoint = `${URL}/${ACTIVITY}`;
+      if (!newdata.duration) {
+        newdata.duration = 'Has No Duration'
+      }
+      if (!newdata.season) {
+        newdata.season = "Has No Seasons"
+      }
       const { data } = await axios.post(endpoint, newdata);
 
       dispatch({

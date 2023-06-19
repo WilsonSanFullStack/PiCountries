@@ -14,37 +14,35 @@ import React, { useEffect } from "react";
 import { getDetail } from "../Redux/action";
 import { useParams } from "react-router-dom";
 
-const Details = (props) => {
+const Details = () => {
   const dispatch = useDispatch();
   const detail = useSelector((state) => state.detail);
-  const loading = useSelector((state) => state.loading);
   const { id } = useParams();
 
   useEffect(() => {
     dispatch(getDetail(id));
   }, [dispatch]);
-  
+
   return (
+    <div className={styles.contendorGlobal}>
     <div className={styles.contenedor}>
-
       <div className={styles.detailCountry}>
+        <div className={styles.image}>
+          <img src={detail.image} alt={detail.name} />
+        </div>
 
-      <div className={styles.image}>
-        <img src={detail.image} alt={detail.name} />
-      </div>
-
-      <div className={styles.detail}>
-        <h2>Name: {detail.name} </h2>
-        <h2>Id: {detail.id} </h2>
-        <h2>Continent: {detail.continent} </h2>
-        <h2>Capital: {detail.capital} </h2>
-        <h2>Population: {detail.population} </h2>
-        <h2>Subregion: {detail.subregion} </h2>
-      </div>
+        <div className={styles.detail}>
+          <h2>ID: {detail.id} </h2>
+          <h2>NAME: {detail.name} </h2>
+          <h2>CONTINENT: {detail.continent} </h2>
+          <h2>CAPITAL: {detail.capital} </h2>
+          <h2>SUBREGION: {detail.subregion} </h2>
+          <h2>AREA: {Intl.NumberFormat('es-CP').format(detail.area)} </h2>
+          <h2>POPULATION: {Intl.NumberFormat('es-CP').format(detail.population)} </h2>
+        </div>
       </div>
 
       <div className={styles.activity}>
-
         <h1>ACTIVITY</h1>
         {detail.Activities?.length >= 0 ? (
           detail.Activities?.map((activity) => {
@@ -57,10 +55,9 @@ const Details = (props) => {
               </div>
             );
           })
-        ) : 
-          <h3>Without activities</h3>
-        }
+        ) : <h3>Without activities</h3>}
       </div>
+    </div>
     </div>
   );
 };

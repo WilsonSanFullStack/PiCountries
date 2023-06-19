@@ -1,22 +1,3 @@
-/*//! HOME PAGE | la página principal de tu SPA debe contener:
-SearchBar: un input de búsqueda para encontrar países por nombre.
-Sector en el que se vea un listado de cards con los países. Al
-iniciar deberá cargar los primeros resultados obtenidos desde la
-ruta
-GET /countries y deberá mostrar su:
-Imagen de la bandera.
-Nombre.
-Continente.
-Cuando se le hace click a una Card deberá redirigir al detalle de
-ese país específico.
-Botones/Opciones para filtrar por continente y por tipo de
-actividad turística.
-Botones/Opciones para ordenar tanto ascendentemente como
-descendentemente los países por orden alfabético y por cantidad de
-población.
-Paginado: el listado de países se hará por partes. Tu SPA debe
-contar con un paginado que muestre un total de 10 países por página
-*/
 import styles from "../styles/Home.module.css";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -41,12 +22,17 @@ const Home = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [countriesPerPage, setCountriesPerPage] = useState(10);
 
-  const max = Math.round(countries.length / countriesPerPage);
+  const max = Math.max(Math.min(Math.ceil(countries.length / countriesPerPage)), 1);
 
   useEffect(() => {
     dispatch(getCountries());
     dispatch(byActivity());
+    dispatch(getActivities());
   }, [dispatch]);
+
+  useEffect(() => {setCurrentPage(1);
+  }, [countries, activity]);
+
 
   const handlerOrder = (data) => {
     data.preventDefault();
@@ -72,75 +58,88 @@ const Home = () => {
     setOrder(data.target.value);
   };
 
-  useEffect(() => {
-    dispatch(getActivities());
-  }, [dispatch]);
-
   return (
     <div>
-      <div>
-        <div>
-          <select onChange={handlerOrderContinents}>
-            <option value="all" key="all">
-              All continents
-            </option>
-            <option value="Africa" key="Africa">
-              Africa
-            </option>
-            <option value="Antarctica" key="Antarctica">
-              Antarctica
-            </option>
-            <option value="Asia" key="Asia">
-              Asia
-            </option>
-            <option value="Europe" key="Europe">
-              Europe
-            </option>
-            <option value="North America" key="North America">
-              North America
-            </option>
-            <option value="Oceania" key="Oceania">
-              Oceania
-            </option>
-            <option value="South America" key="South America">
-              South America
-            </option>
-          </select>
-        </div>
+      {/* contenedor */}
 
-        <div>
-          <select onChange={handlerOrder}>
-            <option value="Asc" key="Asc">
-              A-Z
-            </option>
-            <option value="Desc" key="Desc">
-              Z-A
-            </option>
-          </select>
-        </div>
-
-        <div>
-          <select onChange={handlerOrderPopulation}>
-            <option value="max" key="max">
-              Max population
-            </option>
-            <option value="min" key="min">
-              Min population
-            </option>
-          </select>
-        </div>
-
-        <div>
-          <select onChange={handlerOrderActivity}>
-            <option value="all">All activities</option>
-            {activity.map((activity) => (
-              <option value={activity.id} key={activity.id}>
-                {activity.name}
+      <div className={styles.containerFilter}>
+        <div className={styles.auxiliar}>
+          {/* filtro continentes */}
+          <div className={styles.filter}>
+            <select onChange={handlerOrderContinents}>
+              <option value="all" >
+                Select a filter
               </option>
-            ))}
-          </select>
+              <option value="all">
+                All continents
+              </option>
+              <option value="Africa" key="Africa">
+                Africa
+              </option>
+              <option value="Antarctica" key="Antarctica">
+                Antarctica
+              </option>
+              <option value="Asia" key="Asia">
+                Asia
+              </option>
+              <option value="Europe" key="Europe">
+                Europe
+              </option>
+              <option value="North America" key="North America">
+                North America
+              </option>
+              <option value="Oceania" key="Oceania">
+                Oceania
+              </option>
+              <option value="South America" key="South America">
+                South America
+              </option>
+            </select>
+          </div>
+          {/* filtro ordenar */}
+          <div className={styles.filter}>
+            <select onChange={handlerOrder}>
+              <option value="all">
+              Select a filter
+              </option>
+              <option value="Asc" key="Asc">
+                A-Z
+              </option>
+              <option value="Desc" key="Desc">
+                Z-A
+              </option>
+            </select>
+          </div>
+          {/* filtro poblacion */}
+          <div className={styles.filter}>
+            <select onChange={handlerOrderPopulation}>
+              <option value="all">
+              Select a filter
+              </option>
+              <option value="max" key="max">
+                Max population
+              </option>
+              <option value="min" key="min">
+                Min population
+              </option>
+            </select>
+          </div>
+          {/* filtro actividades */}
+          <div className={styles.filter}>
+            <select onChange={handlerOrderActivity}>
+              <option value="all">Select a filter</option>
+              <option value="all">All activities</option>
+              {activity &&
+                activity.map((activity) => (
+                  <option value={activity.name} key={activity.name}>
+                    {activity.name}
+                  </option>
+                ))}
+            </select>
+          </div>
         </div>
       </div>
+
       <div>
         <div className={styles.contenedor}>
           {countries
@@ -150,8 +149,9 @@ const Home = () => {
             )
             .map((pais) => {
               return (
-                <div className={styles.country } key={pais.id} >
+                <div className={styles.country} key={pais.id}>
                   <h2>{pais.name}</h2>
+                  <h3>{pais.continent}</h3>
                   <Link to={"/countries/" + pais.id} key={pais.id}>
                     <img src={pais.image} alt={pais.name} />
                   </Link>

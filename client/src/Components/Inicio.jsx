@@ -8,16 +8,11 @@ import { Link } from "react-router-dom";
 const Inicio = () => {
   return (
     <div className={styles.contenedor}>
-      <div>
-        <img
-          src="https://d31uz8lwfmyn8g.cloudfront.net/Assets/logo-henry-white-lg.png"
-          alt="Logo Henry"
-        />
-      </div>
+      
 
       <div className={styles.text}>
         <h1>
-          <Link to={'/home'}>
+          <Link to={"/home"}>
             <button>COUNTRIES | Proyecto Individual</button>
           </Link>
         </h1>

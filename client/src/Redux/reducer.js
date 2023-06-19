@@ -13,12 +13,9 @@ import {
 const initialState = {
   countries: [],
   allContinents: [],
+  allActivities: [],
   detail: [],
   activity: [],
-  allActivities: [],
-  population: [],
-  filteredCountries: [],
-  loading: false,
 };
 
 export function reducer(state = initialState, action) {
@@ -29,10 +26,7 @@ export function reducer(state = initialState, action) {
         ...state,
         allContinents: action.payload,
         countries: action.payload,
-        population: action.payload,
         allActivities: action.payload,
-        filteredCountries: action.payload,
-        //searchName: action.payload,
       };
     //buscamos un pais por nombre
     case GET_COUNTRIES_NAME:
@@ -61,45 +55,48 @@ export function reducer(state = initialState, action) {
     // ordenar paises
     case SORT:
       const asc = action.payload.asc;
-      
+
       return {
         ...state,
         countries: state.countries.sort((a, b) => {
+          if (asc === 'all') {
+            return {
+              ...state,
+              countries: state.countries,
+            }
+          }
           if (asc.toLowerCase() === "asc") {
             return a.name.localeCompare(b.name);
           }
           return b.name.localeCompare(a.name);
         }),
-      }
-    
+      };
+
     // filtracion por continente
     case FILTER_FOR_CONTINENT:
-  const continente = action.payload.continente.toLowerCase();
-
-  if (continente === "all") {
-    return {
-      ...state,
-      countries: state.countries.sort((a, b) =>
-        a.continent.localeCompare(b.continent)
-      ),
-    };
-  }
-
-  const filteredCountries = state.countries.filter(
-    (pais) => pais.continent.toLowerCase() === continente
-  );
-
-  return {
-    ...state,
-    countries: filteredCountries,
-  };
-
+      const allContinents = state.allContinents;
+      const continentFilter =
+        action.payload.continente === "all"
+          ? allContinents
+          : allContinents.filter(
+              (pais) => pais.continent === action.payload.continente
+            );
+      return {
+        ...state,
+        countries: continentFilter,
+      };
     //ordenamos por poblacion
     case BY_POPULATIONS:
       const min = action.payload.min;
       return {
         ...state,
-        population: state.population.sort((a, b) => {
+        countries: state.countries.sort((a, b) => {
+          if (min === 'all') {
+            return {
+              ...state,
+              countries: state.countries,
+            }
+          }
           if (min.toLowerCase() == "min") {
             return a.population - b.population;
           }
@@ -108,20 +105,21 @@ export function reducer(state = initialState, action) {
       };
     // ordenamos por actividad
     case BY_ACTIVITY:
-      const all = action.payload.all;
+      const allActivities = state.allActivities;
+      const activityFilter =
+        action.payload.all === "all"
+          ? allActivities.filter((x) => x.Activities.length > 0)
+          : allActivities.filter((pais) =>
+              pais.Activities.find(
+                (activity) => activity.name === action.payload.all
+              )
+            );
       return {
         ...state,
-        allActivities: state.countries.filter((pais) => {
-          if (all.toLowerCase() === "all") {
-            return pais.activities.length > 0;
-          }
-          return pais.activities.some(
-            (activity) => activity.name.toLowerCase() === all.toLowerCase()
-          );
-        }),
+        countries: activityFilter,
       };
-
+      
     default:
       return state;
   }
-};
+}

@@ -1,8 +1,8 @@
 .nav {
   display: flex;
-  background-color: #8fb0e9;
+  background-color: hsl(18, 69%, 78%); /* Cambiar a tu color preferido */
   align-items: center;
-  justify-content: right;
+  justify-content: flex-end;
   padding: 2px;
   position: fixed;
   width: 100%;
@@ -13,6 +13,25 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  align-content: center;
   margin-left: 5px;
+  padding: 5px;
+  background-color: hsl(18, 69%, 78%);
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: bold;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+  border-radius: 5px;
+}
+
+.btn:hover {
+  background-color: hsl(18, 69%, 60%);
+}
+
+.btn:active {
+  background-color: hsl(18, 69%, 40%);
+}
+
+.btn:last-child {
+  margin-right: 0;
 }

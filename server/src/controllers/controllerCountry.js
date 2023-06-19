@@ -2,7 +2,12 @@
 const { Country, Activity } = require("../db.js");
 const { Op } = require("sequelize");
 
-const getAllCountries = async () => await Country.findAll();
+const getAllCountries = async () => await Country.findAll({include: {
+  model: Activity,
+  as: "Activities",
+  attributes: ["id", "name", "difficulty", "duration", "season"],
+  through: { attributes: [] },}
+},);
 
 const getCountryById = async (id) => {
   const countryFilterId = await Country.findOne({
@@ -28,7 +33,7 @@ const getCountryByName = async (name) => {
     },
   });
 
-  if (countryFilterName.length > 0) return countryFilterName;
+  if (countryFilterName.length >= 0) return countryFilterName;
   return { error: `No hay paises con el Nombre: ${name}` };
 };
 
