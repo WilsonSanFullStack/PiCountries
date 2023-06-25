@@ -7,3 +7,5 @@ export const FILTER_FOR_CONTINENT = "FILTER_FOR_CONTINENT";
 export const SORT = "SORT";
 export const BY_POPULATIONS = "BY_POPULATIONS";
 export const BY_ACTIVITY = "BY_ACTIVITY";
+export const ERROR_NAME = "ERROR_NAME";
+export const MEMORY_STATUS = "MEMORY_STATUS";

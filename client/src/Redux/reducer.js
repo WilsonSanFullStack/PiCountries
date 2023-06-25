@@ -8,14 +8,18 @@ import {
   SORT,
   BY_POPULATIONS,
   BY_ACTIVITY,
+  ERROR_NAME,
+  MEMORY_STATUS,
 } from "./variables";
 
 const initialState = {
   countries: [],
+  memory: [],
   allContinents: [],
   allActivities: [],
   detail: [],
   activity: [],
+  error: "",
 };
 
 export function reducer(state = initialState, action) {
@@ -32,6 +36,7 @@ export function reducer(state = initialState, action) {
     case GET_COUNTRIES_NAME:
       return {
         ...state,
+        error: "",
         countries: action.payload,
       };
     // mostramos el detalle de un pais
@@ -59,17 +64,18 @@ export function reducer(state = initialState, action) {
       return {
         ...state,
         countries: state.countries.sort((a, b) => {
-          if (asc === 'all') {
+          if (asc === "all") {
             return {
               ...state,
               countries: state.countries,
-            }
+            };
           }
           if (asc.toLowerCase() === "asc") {
             return a.name.localeCompare(b.name);
           }
           return b.name.localeCompare(a.name);
         }),
+        memory: state.countries,
       };
 
     // filtracion por continente
@@ -84,6 +90,7 @@ export function reducer(state = initialState, action) {
       return {
         ...state,
         countries: continentFilter,
+        memory: continentFilter,
       };
     //ordenamos por poblacion
     case BY_POPULATIONS:
@@ -91,17 +98,18 @@ export function reducer(state = initialState, action) {
       return {
         ...state,
         countries: state.countries.sort((a, b) => {
-          if (min === 'all') {
+          if (min === "all") {
             return {
               ...state,
               countries: state.countries,
-            }
+            };
           }
           if (min.toLowerCase() == "min") {
             return a.population - b.population;
           }
           return b.population - a.population;
         }),
+        memory: state.countries,
       };
     // ordenamos por actividad
     case BY_ACTIVITY:
@@ -117,8 +125,20 @@ export function reducer(state = initialState, action) {
       return {
         ...state,
         countries: activityFilter,
+        memory: activityFilter,
       };
-      
+    case ERROR_NAME:
+      return {
+        ...state,
+        error: action.error,
+      };
+    case MEMORY_STATUS:
+      if (action.payload === "") {
+        return {
+          ...state,
+          countries: state.memory,
+        };
+      }
     default:
       return state;
   }

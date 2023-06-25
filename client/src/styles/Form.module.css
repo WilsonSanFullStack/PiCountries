@@ -1,8 +1,7 @@
 .containerg {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  height: 100vh;
 }
 
 .aviso {
@@ -21,6 +20,7 @@
   padding: 20px;
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  width: 500px;
 }
 
 h1 {
@@ -51,10 +51,13 @@ select {
   border-radius: 3px;
   border: 1px solid #ccc;
 }
+.send {
+  justify-content: center;
+}
 
 .send button {
   background-color: #e2cba0;
-  color: #fff;
+  color: #000;
   border: none;
   padding: 5px 10px;
   border-radius: 3px;
@@ -69,15 +72,28 @@ ol {
   margin: 0;
   padding: 0;
   list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+  flex-direction: row;
 }
 
 .listCountry {
   display: flex;
   align-items: center;
+  margin-bottom: 1px;
+  width: calc(100% / 6 - 5px); /* Ajustar el ancho para 6 columnas */
 }
 
 .listCountry p {
   margin-right: 10px;
+  word-wrap: break-word;
+  margin: 15px;
+  align-items: center;
+  padding-left: 5px;
+  padding-right: 5px;
+
 }
 
 .listCountry button {
@@ -90,20 +106,14 @@ ol {
   width: 16px;
   height: 16px;
 }
-.close ol {
-  width: 200px; /* Ajusta el ancho según tus necesidades */
-  display: flex;
-  flex-wrap: wrap;
+h3 {
+  text-align: center;
+  margin-bottom: 2px;
 }
-
-.listCountry {
-  display: flex;
-  align-items: center;
-  flex-wrap: nowrap;
-  margin-bottom: 5px;
-}
-
-.listCountry p {
-  margin-right: 10px;
-  word-wrap: break-word;
+.error {
+  text-align: center;
+  color: red;
+  font-size: 14px;
+  margin: 1px;
+  font-weight: bold;
 }

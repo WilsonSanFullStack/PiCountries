@@ -10,6 +10,8 @@ import {
   SORT,
   BY_POPULATIONS,
   BY_ACTIVITY,
+  ERROR_NAME,
+  MEMORY_STATUS,
 } from "./variables";
 
 //urls
@@ -58,10 +60,18 @@ export const getCountriesByName = (name) => {
       const endpoint = `${URL}/name?name=${name}`;
       const { data } = await axios.get(endpoint);
 
-      dispatch({
-        type: GET_COUNTRIES_NAME,
-        payload: data,
-      });
+      if (data.length <= 0) {
+        const errorMessage = `No countries were found with the name: ${name}.`;
+        dispatch({
+          type: ERROR_NAME,
+          error: errorMessage,
+        });
+      } else {
+        dispatch({
+          type: GET_COUNTRIES_NAME,
+          payload: data,
+        });
+      }
     } catch (error) {
       alert(
         `Ocurrió un error al buscar los países por nombre: ${error.message}`
@@ -75,10 +85,10 @@ export const newActivity = (newdata) => {
     try {
       const endpoint = `${URL}/${ACTIVITY}`;
       if (!newdata.duration) {
-        newdata.duration = 'Has No Duration'
+        newdata.duration = "Has No Duration";
       }
       if (!newdata.season) {
-        newdata.season = "Has No Seasons"
+        newdata.season = "Has No Seasons";
       }
       const { data } = await axios.post(endpoint, newdata);
 
@@ -142,4 +152,11 @@ export const byActivity = (payload) => {
       all: payload,
     },
   };
+};
+
+export const memory = (value) => {
+  return {
+    type: MEMORY_STATUS,
+    payload: value,
+  }
 };

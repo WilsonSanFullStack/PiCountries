@@ -9,6 +9,7 @@ import {
   filterCountriesForCotinent,
   byPopulations,
   byActivity,
+  memory,
 } from "../Redux/action";
 import Paginado from "./Paginas";
 
@@ -18,21 +19,32 @@ const Home = () => {
 
   const countries = useSelector((state) => state.countries);
   const activity = useSelector((state) => state.activity);
+  const error = useSelector((state) => state.error);
+  const memoryData = useSelector((state) => state.memory);
 
   const [currentPage, setCurrentPage] = useState(1);
   const [countriesPerPage, setCountriesPerPage] = useState(10);
 
-  const max = Math.max(Math.min(Math.ceil(countries.length / countriesPerPage)), 1);
+  const max = Math.max(
+    Math.min(Math.ceil(countries.length / countriesPerPage)),
+    1
+  );
 
   useEffect(() => {
-    dispatch(getCountries());
-    dispatch(byActivity());
-    dispatch(getActivities());
+    if (!memoryData.length) {
+      dispatch(getCountries(), byActivity(), getActivities());
+    } else {
+      dispatch(memory(""));
+    }
   }, [dispatch]);
 
-  useEffect(() => {setCurrentPage(1);
-  }, [countries, activity]);
+  useEffect(() => {
+    dispatch(getActivities())
+  }, [dispatch]);
 
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [countries, activity]);
 
   const handlerOrder = (data) => {
     data.preventDefault();
@@ -67,12 +79,8 @@ const Home = () => {
           {/* filtro continentes */}
           <div className={styles.filter}>
             <select onChange={handlerOrderContinents}>
-              <option value="all" >
-                Select a filter
-              </option>
-              <option value="all">
-                All continents
-              </option>
+              <option value="all">Select a filter</option>
+              <option value="all">All continents</option>
               <option value="Africa" key="Africa">
                 Africa
               </option>
@@ -99,9 +107,7 @@ const Home = () => {
           {/* filtro ordenar */}
           <div className={styles.filter}>
             <select onChange={handlerOrder}>
-              <option value="all">
-              Select a filter
-              </option>
+              <option value="all">Select a filter</option>
               <option value="Asc" key="Asc">
                 A-Z
               </option>
@@ -113,9 +119,7 @@ const Home = () => {
           {/* filtro poblacion */}
           <div className={styles.filter}>
             <select onChange={handlerOrderPopulation}>
-              <option value="all">
-              Select a filter
-              </option>
+              <option value="all">Select a filter</option>
               <option value="max" key="max">
                 Max population
               </option>
@@ -127,11 +131,11 @@ const Home = () => {
           {/* filtro actividades */}
           <div className={styles.filter}>
             <select onChange={handlerOrderActivity}>
-              <option value="all">Select a filter</option>
+              <option value="null">Select a filter</option>
               <option value="all">All activities</option>
               {activity &&
                 activity.map((activity) => (
-                  <option value={activity.name} key={activity.name}>
+                  <option value={activity.name} key={activity.name} onClick={() =>getCountries()}>
                     {activity.name}
                   </option>
                 ))}
@@ -141,25 +145,30 @@ const Home = () => {
       </div>
 
       <div>
-        <div className={styles.contenedor}>
-          {countries
-            .slice(
-              (currentPage - 1) * countriesPerPage,
-              currentPage * countriesPerPage
-            )
-            .map((pais) => {
-              return (
-                <div className={styles.country} key={pais.id}>
-                  <h2>{pais.name}</h2>
-                  <h3>{pais.continent}</h3>
-                  <Link to={"/countries/" + pais.id} key={pais.id}>
-                    <img src={pais.image} alt={pais.name} />
-                  </Link>
-                </div>
-              );
-            })}
-        </div>
+        {/* muestro el error de la busqueda por name */}
+        {error && <div>{error}</div>}
+        {!error && countries.length > 0 && (
+          <div className={styles.contenedor}>
+            {countries
+              .slice(
+                (currentPage - 1) * countriesPerPage,
+                currentPage * countriesPerPage
+              )
+              .map((pais) => {
+                return (
+                  <div className={styles.country} key={pais.id}>
+                    <h2>{pais.name}</h2>
+                    <h3>{pais.continent}</h3>
+                    <Link to={"/countries/" + pais.id} key={pais.id}>
+                      <img src={pais.image} alt={pais.name} />
+                    </Link>
+                  </div>
+                );
+              })}
+          </div>
+        )}
       </div>
+
       <div className={styles.pagina}>
         <Paginado
           currentPage={currentPage}

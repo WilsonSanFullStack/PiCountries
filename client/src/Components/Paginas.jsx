@@ -21,7 +21,7 @@ const Paginado = ({ currentPage, setCurrentPage, max }) => {
       if (
         parseInt(event.target.value < 1) ||
         parseInt(event.target.value) > Math.ceil(max) ||
-        isNaN(parseInt(event.target.value))
+        isNaN(parseInt(event.target.value)) || parseInt(event.target.value) <= 0 
       ) {
         setCurrentPage(1);
         setInput(1);

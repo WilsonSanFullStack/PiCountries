@@ -7,7 +7,7 @@ const NavBar = ({ onSearch }) => {
     <div className={styles.nav}>
       <div className={styles.btn}>
       <NavLink to="/Home">
-        <button>Home</button>
+        <button >Home</button>
       </NavLink>
       </div>
       <div className={styles.btn}>
